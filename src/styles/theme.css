@@ -3,6 +3,11 @@
   warm off-white canvas, indigo/periwinkle accent ("flow blue"),
   generous whitespace, soft rounded cards, subtle shadows,
   Inter for UI text + Newsreader (serif) for display headlines.
+
+  Light is the default palette on :root. Dark mode overrides the same
+  custom-property names under [data-theme="dark"] (toggled on <html> by
+  src/lib/theme.ts), so every component that already reads `var(--color-*)`
+  picks up the dark palette automatically — no per-component changes needed.
 */
 
 :root {
@@ -10,6 +15,7 @@
   --color-bg-soft: #efece6;
   --color-surface: #ffffff;
   --color-surface-raised: #ffffff;
+  --color-header-bg: rgba(247, 245, 242, 0.72);
   --color-border: rgba(28, 25, 23, 0.08);
   --color-border-strong: rgba(28, 25, 23, 0.14);
 
@@ -43,6 +49,47 @@
   --font-serif: "Newsreader", Georgia, serif;
 
   --container: 1180px;
+
+  --bg-glow-1: rgba(78, 95, 253, 0.10);
+  --bg-glow-2: rgba(200, 155, 60, 0.12);
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --color-bg: #18171a;
+  --color-bg-soft: #221f23;
+  --color-surface: #221f23;
+  --color-surface-raised: #2a262b;
+  --color-header-bg: rgba(24, 23, 26, 0.72);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+
+  --color-ink: #f3f1ee;
+  --color-ink-soft: #c9c4be;
+  --color-ink-faint: #8d8782;
+
+  --color-accent: #8b96ff;
+  --color-accent-soft: rgba(139, 150, 255, 0.16);
+  --color-accent-ink: #c2c9ff;
+
+  --color-gold: #e0b85c;
+  --color-gold-soft: rgba(224, 184, 92, 0.14);
+  --color-gold-strong: #f3cf85;
+
+  --color-positive: #4cc88f;
+  --color-positive-soft: rgba(76, 200, 143, 0.14);
+  --color-negative: #ec7c72;
+  --color-negative-soft: rgba(236, 124, 114, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.22), 0 1px 1px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.45), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 24px 64px -16px rgba(0, 0, 0, 0.55), 0 8px 24px -8px rgba(0, 0, 0, 0.35);
+
+  --bg-glow-1: rgba(139, 150, 255, 0.10);
+  --bg-glow-2: rgba(224, 184, 92, 0.07);
+
+  color-scheme: dark;
 }
 
 * {
@@ -62,6 +109,7 @@ body {
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 body::before {
@@ -70,9 +118,10 @@ body::before {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(640px 420px at 14% -6%, rgba(78, 95, 253, 0.10), transparent 60%),
-    radial-gradient(720px 480px at 88% 6%, rgba(200, 155, 60, 0.12), transparent 60%);
+    radial-gradient(640px 420px at 14% -6%, var(--bg-glow-1), transparent 60%),
+    radial-gradient(720px 480px at 88% 6%, var(--bg-glow-2), transparent 60%);
   pointer-events: none;
+  transition: background 0.25s ease;
 }
 
 a {
@@ -119,6 +168,12 @@ button {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 640px) {
+  .hide-on-narrow {
+    display: none !important;
+  }
 }
 
 .scrollbar-hidden::-webkit-scrollbar {

@@ -1,6 +1,24 @@
-export function SiteHeader() {
+import type { Theme } from "../lib/theme";
+import { ThemeToggle } from "./ThemeToggle";
+
+interface Props {
+  theme: Theme;
+  onToggleTheme: () => void;
+}
+
+export function SiteHeader({ theme, onToggleTheme }: Props) {
   return (
-    <header style={{ borderBottom: "1px solid var(--color-border)", background: "rgba(247, 245, 242, 0.72)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 20 }}>
+    <header
+      style={{
+        borderBottom: "1px solid var(--color-border)",
+        background: "var(--color-header-bg)",
+        backdropFilter: "blur(10px)",
+        position: "sticky",
+        top: 0,
+        zIndex: 20,
+        transition: "background 0.25s ease, border-color 0.25s ease",
+      }}
+    >
       <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span
@@ -29,10 +47,15 @@ export function SiteHeader() {
           </span>
         </div>
         <nav style={{ display: "flex", alignItems: "center", gap: 22, fontSize: 14.5, color: "var(--color-ink-soft)" }}>
-          <span>Widgets</span>
-          <span>About</span>
+          <span style={{ display: "inline-block" }} className="hide-on-narrow">
+            Widgets
+          </span>
+          <span style={{ display: "inline-block" }} className="hide-on-narrow">
+            About
+          </span>
           <a
             href="https://github.com/"
+            className="hide-on-narrow"
             style={{
               textDecoration: "none",
               fontWeight: 600,
@@ -45,6 +68,7 @@ export function SiteHeader() {
           >
             View source
           </a>
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         </nav>
       </div>
     </header>

@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { SiteHeader } from "./components/SiteHeader";
 import { WidgetCard } from "./components/WidgetCard";
 import { WIDGETS, getWidget } from "./widgets/registry";
+import { useTheme } from "./lib/theme";
 
 const LAST_WIDGET_KEY = "pulse.lastWidget";
 
 export default function App() {
+  const [theme, toggleTheme] = useTheme();
+
   const [activeId, setActiveId] = useState<string>(() => {
     try {
       return localStorage.getItem(LAST_WIDGET_KEY) || WIDGETS[0].id;
@@ -27,7 +30,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100%", display: "flex", flexDirection: "column" }}>
-      <SiteHeader />
+      <SiteHeader theme={theme} onToggleTheme={toggleTheme} />
 
       <main style={{ flex: 1 }}>
         <section className="container" style={{ paddingTop: 56, paddingBottom: 28 }}>
